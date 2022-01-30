@@ -4,11 +4,11 @@ import React, { useState } from "react";
 const data = require("../../youtube.json");
 export interface User {
   name: string;
-  picture: string;
+  picture: string | undefined;
 }
 export interface Playlist {
   name: string;
-  picture: string;
+  picture: string | undefined;
   id: string;
   origin: "youtube" | "spotify";
 }
@@ -31,9 +31,20 @@ export default function YoutubeProvider(props: YoutubeProviderProps) {
   const [playlists, setPlaylists] = React.useState<Playlist[] | undefined>(
     undefined
   );
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("yt_token");
+    load("auth").then(() =>
+      load("client").then(() => {
+        if (token) {
+          gapi.client.setToken(JSON.parse(token));
+          getAuthUser().then(setUser);
+          getPlaylists().then(setPlaylists);
+        }
+      })
+    );
+  }, []);
   const login = async () => {
-    await load("client");
-    await load("auth");
     await gapi.client.init({
       clientId: data.web.client_id,
       scope: "*",
@@ -45,6 +56,7 @@ export default function YoutubeProvider(props: YoutubeProviderProps) {
         "https://www.googleapis.com/auth/userinfo.profile",
       ],
     });
+    localStorage.setItem("yt_token", JSON.stringify(token));
     gapi.client.setToken(token);
     setUser(await getAuthUser());
     setPlaylists(await getPlaylists());
@@ -89,7 +101,6 @@ export default function YoutubeProvider(props: YoutubeProviderProps) {
       console.log(e);
       return undefined;
     }
-    return [];
   };
 
   const load = (what: string) =>

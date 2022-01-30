@@ -185,7 +185,6 @@ module.exports = function (webpackEnv) {
     }
     return loaders;
   };
-
   return {
     target: ['browserslist'],
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
@@ -298,6 +297,7 @@ module.exports = function (webpackEnv) {
       modules: ['node_modules', paths.appNodeModules].concat(
         modules.additionalModulePaths || []
       ),
+      fallback: { "querystring": require.resolve("querystring-es3") },
       // These are the reasonable defaults supported by the Node ecosystem.
       // We also include JSX as a common component filename extension to support
       // some tools, although we do not recommend using it, see:

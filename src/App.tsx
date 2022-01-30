@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppBar from "./components/AppBar";
 import Router from "./components/Router";
+import SpotifyProvider from "./components/SpotifyProvider";
 import { theme } from "./components/theme";
 import YoutubeProvider from "./components/YoutubeProvider";
 
@@ -11,8 +12,10 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <YoutubeProvider>
-          <AppBar />
-          <Router />
+          <SpotifyProvider>
+            <AppBar />
+            <Router />
+          </SpotifyProvider>
         </YoutubeProvider>
       </ThemeProvider>
     </BrowserRouter>

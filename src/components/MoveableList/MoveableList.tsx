@@ -14,11 +14,17 @@ export default function MoveableList(props: MoveableListProps) {
         style={{
           height: 100,
           width: 130,
-          boxShadow: "drop-shadow(0px 0px 8px rgba(0,0,0,.2))",
+          position: "absolute",
+          top: Math.random() * 60 + "%",
+          left:
+            (list.origin === "youtube"
+              ? Math.random() * 40
+              : Math.random() * 40 + 40) + "%",
+          boxShadow: "drop-shadow(0px 0px 8px rgba(101,163,153,.2))",
           cursor: "grab",
           borderRadius: 10,
           overflow: "hidden",
-          border: `4px solid ${list.origin === "youtube" ? "red" : "green"}`,
+          border: `4px solid ${list.origin === "youtube" ? "red" : "#1DB954"}`,
           justifyContent: "center",
           alignItems: "center",
           display: "flex",

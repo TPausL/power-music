@@ -59,9 +59,24 @@ export default function Main(props: MainProps) {
           <Divider style={{ marginTop: 5 }} />
         </Div>
         <Div>
-          <Button variant="contained" onClick={() => spotify.login()}>
-            Login to Spotify
-          </Button>
+          {spotify.user ? (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Typography style={{ fontWeight: "bold" }}>
+                Logged in as:
+              </Typography>
+              <Avatar
+                style={{ marginLeft: theme.spacing(1) }}
+                src={spotify.user.picture}
+              />
+              <Typography style={{ marginLeft: theme.spacing(1) }}>
+                {spotify.user.name}
+              </Typography>
+            </div>
+          ) : (
+            <Button variant="contained" onClick={() => spotify.login()}>
+              Login to Spotify
+            </Button>
+          )}
           <Divider style={{ marginTop: 5 }} />
         </Div>
       </div>
